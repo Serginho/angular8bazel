@@ -1,0 +1,27 @@
+load("@npm_bazel_typescript//:index.bzl", "ts_config")
+
+package(default_visibility = ["//visibility:public"])
+
+ts_config(
+    name = "tsconfig",
+    src = "tsconfig.json",
+    deps = [":tsconfig.json"],
+)
+
+ts_config(
+    name = "tsconfig-app",
+    src = "tsconfig.app.json",
+    deps = [":tsconfig.json"],
+)
+
+ts_config(
+    name = "tsconfig-test",
+    src = "tsconfig.spec.json",
+    deps = [":tsconfig.json"],
+)
+
+# This export allows targets in other packages to reference files that live
+# in this package.
+exports_files([
+    "tsconfig.json",
+])

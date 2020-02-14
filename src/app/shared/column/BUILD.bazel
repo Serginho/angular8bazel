@@ -1,0 +1,18 @@
+load("@io_bazel_rules_sass//:defs.bzl", "sass_binary")
+load("@npm_angular_bazel//:index.bzl", "ng_module")
+
+package(default_visibility = ["//:__subpackages__"])
+
+sass_binary(
+    name = "column-styles",
+    src = "column.component.scss",
+)
+
+ng_module(
+    name = "column",
+    srcs = glob(["*.ts"], exclude = ["*.spec.ts"]),
+    assets = ["column.component.html", ":column-styles"],
+    deps = [
+        "@npm//@angular/core",
+    ],
+)
