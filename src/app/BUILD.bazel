@@ -1,7 +1,7 @@
 load("@npm_angular_bazel//:index.bzl", "ng_module")
 load("@io_bazel_rules_sass//:defs.bzl", "sass_binary")
 load("@npm_bazel_typescript//:index.bzl", "ts_library")
-load("@npm_bazel_karma//:index.bzl", "ts_web_test_suite")
+load("@npm_bazel_karma//:index.bzl", "karma_web_test_suite")
 
 package(default_visibility = ["//:__subpackages__"])
 
@@ -35,10 +35,13 @@ ts_library(
     ],
 )
 
-ts_web_test_suite(
+karma_web_test_suite(
     name = "test",
     srcs = [
         "@npm//:node_modules/tslib/tslib.js",
+    ],
+    runtime_deps = [
+        "//src:initialize_testbed",
     ],
     # do not sort
     bootstrap = [
@@ -47,15 +50,10 @@ ts_web_test_suite(
     ],
     browsers = [
         "@io_bazel_rules_webtesting//browsers:chromium-local",
-        "@io_bazel_rules_webtesting//browsers:firefox-local",
     ],
     tags = ["native"],
-    runtime_deps = [
-        "//src:initialize_testbed",
-    ],
     deps = [
-        ":test_lib",
         "//src:rxjs_umd_modules",
-        "@npm//karma-jasmine",
+        ":test_lib",
     ],
 )
